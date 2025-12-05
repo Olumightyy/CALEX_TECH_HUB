@@ -31,11 +31,11 @@ export default async function TeacherLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full">
+      <div className="flex min-h-screen w-full bg-slate-50">
         <DashboardSidebar profile={profile} role="teacher" />
         <div className="flex flex-1 flex-col">
           <DashboardHeader profile={profile} />
-          <main className="flex-1 p-6 bg-muted/30">{children}</main>
+          <main className="flex-1 p-6 overflow-y-auto">{children}</main>
         </div>
       </div>
     </SidebarProvider>
