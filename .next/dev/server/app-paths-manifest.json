@@ -1,19 +1,11 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/admin/courses/[id]/page": "app/admin/courses/[id]/page.js",
-  "/admin/courses/page": "app/admin/courses/page.js",
+  "/admin/analytics/page": "app/admin/analytics/page.js",
+  "/admin/logs/page": "app/admin/logs/page.js",
+  "/admin/notifications/page": "app/admin/notifications/page.js",
   "/admin/page": "app/admin/page.js",
+  "/admin/teachers/page": "app/admin/teachers/page.js",
+  "/admin/verifications/page": "app/admin/verifications/page.js",
   "/auth/login/page": "app/auth/login/page.js",
-  "/courses/[slug]/page": "app/courses/[slug]/page.js",
-  "/courses/page": "app/courses/page.js",
-  "/page": "app/page.js",
-  "/student/certificates/page": "app/student/certificates/page.js",
-  "/student/my-courses/page": "app/student/my-courses/page.js",
-  "/student/page": "app/student/page.js",
-  "/teacher/analytics/page": "app/teacher/analytics/page.js",
-  "/teacher/courses/[id]/page": "app/teacher/courses/[id]/page.js",
-  "/teacher/courses/new/page": "app/teacher/courses/new/page.js",
-  "/teacher/courses/page": "app/teacher/courses/page.js",
-  "/teacher/page": "app/teacher/page.js",
-  "/teacher/settings/page": "app/teacher/settings/page.js"
+  "/page": "app/page.js"
 }

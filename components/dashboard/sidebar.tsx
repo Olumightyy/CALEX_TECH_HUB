@@ -62,7 +62,7 @@ const teacherNavItems: NavItem[] = [
   { href: "/teacher/courses", label: "My Courses", icon: BookOpen },
   { href: "/teacher/courses/new", label: "Create Course", icon: PlusCircle },
   { href: "/teacher/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/teacher/announcements", label: "Announcements", icon: Bell },
+  { href: "/teacher/notifications", label: "Notifications", icon: Bell },
 ]
 
 const adminNavItems: NavItem[] = [
@@ -72,6 +72,7 @@ const adminNavItems: NavItem[] = [
   { href: "/admin/students", label: "Students", icon: Users },
   { href: "/admin/payments", label: "Payments", icon: DollarSign },
   { href: "/admin/reviews", label: "Reviews", icon: CheckSquare },
+  { href: "/admin/notifications", label: "Notifications", icon: Bell },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   { href: "/admin/logs", label: "Logs", icon: FileText },
 ]

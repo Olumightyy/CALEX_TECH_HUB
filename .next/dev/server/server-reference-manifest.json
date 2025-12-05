@@ -1,19 +1,34 @@
 {
   "node": {
-    "401a927936d7122a5d063739fc9ecf7415cdf49709": {
+    "402fb0a293cd8f1a42595ac6b46b8c9f8c709bdddf": {
       "workers": {
-        "app/teacher/courses/page": {
-          "moduleId": "[project]/.next-internal/server/app/teacher/courses/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/teacher/courses/page.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/admin/verifications/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/verifications/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/admin/verifications/page.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
           "exportedName": "$$RSC_SERVER_ACTION_0",
-          "filename": "app/teacher/courses/page.tsx"
+          "filename": "app/admin/verifications/page.tsx"
         }
       },
       "layer": {
-        "app/teacher/courses/page": "rsc"
+        "app/admin/verifications/page": "rsc"
       },
-      "filename": "app/teacher/courses/page.tsx",
+      "filename": "app/admin/verifications/page.tsx",
       "exportedName": "$$RSC_SERVER_ACTION_0"
+    },
+    "4075591433dc81b2faa0b8ad79bc9c7ad1c4603c9c": {
+      "workers": {
+        "app/admin/verifications/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/verifications/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/admin/verifications/page.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_1",
+          "filename": "app/admin/verifications/page.tsx"
+        }
+      },
+      "layer": {
+        "app/admin/verifications/page": "rsc"
+      },
+      "filename": "app/admin/verifications/page.tsx",
+      "exportedName": "$$RSC_SERVER_ACTION_1"
     }
   },
   "edge": {},
