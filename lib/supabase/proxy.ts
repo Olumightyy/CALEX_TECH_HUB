@@ -1,41 +1,47 @@
-import { createServerClient } from "@supabase/ssr"
+import { createClient as createSupabaseClient } from "@supabase/supabase-js"
 import { NextResponse, type NextRequest } from "next/server"
 
 export async function updateSession(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
+  const supabaseResponse = NextResponse.next({
     request,
   })
 
-  const supabase = createServerClient(
+  // Create Supabase client
+  const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll()
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
-          supabaseResponse = NextResponse.next({
-            request,
-          })
-          cookiesToSet.forEach(({ name, value, options }) => supabaseResponse.cookies.set(name, value, options))
-        },
+      auth: {
+        persistSession: false,
       },
     },
   )
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  // Get auth token from request cookies
+  const authCookie = request.cookies
+    .getAll()
+    .find((cookie) => cookie.name.includes("auth-token") || cookie.name.includes("sb-"))
 
-  // Protected routes by role
-  const protectedRoutes = {
-    student: ["/student"],
-    teacher: ["/teacher"],
-    admin: ["/admin"],
+  if (!authCookie) {
+    // No auth, proceed with checks
+    const pathname = request.nextUrl.pathname
+    const isProtectedRoute =
+      pathname.startsWith("/student") || pathname.startsWith("/teacher") || pathname.startsWith("/admin")
+
+    if (isProtectedRoute) {
+      const url = request.nextUrl.clone()
+      url.pathname = "/auth/login"
+      return NextResponse.redirect(url)
+    }
+    return supabaseResponse
   }
 
+  // Set auth for this request
+  const {
+    data: { user },
+  } = await supabase.auth.getUser(authCookie.value)
+
+  // Protected routes by role
   const pathname = request.nextUrl.pathname
 
   // Check if accessing any protected route without auth

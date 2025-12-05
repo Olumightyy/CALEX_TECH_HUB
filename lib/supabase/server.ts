@@ -1,22 +1,30 @@
-import { createServerClient } from "@supabase/ssr"
+import { createClient as createSupabaseClient } from "@supabase/supabase-js"
 import { cookies } from "next/headers"
 
 export async function createClient() {
   const cookieStore = await cookies()
 
-  return createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
-    cookies: {
-      getAll() {
-        return cookieStore.getAll()
+  // Get auth token from cookies
+  const allCookies = cookieStore.getAll()
+  const authToken = allCookies.find((cookie) => cookie.name.includes("auth-token"))?.value
+
+  // Create client with auth context
+  const supabase = createSupabaseClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      auth: {
+        persistSession: false,
       },
-      setAll(cookiesToSet) {
-        try {
-          cookiesToSet.forEach(({ name, value, options }) => cookieStore.set(name, value, options))
-        } catch {
-          // The "setAll" method was called from a Server Component.
-          // This can be ignored if you have proxy refreshing user sessions.
-        }
+      global: {
+        headers: authToken
+          ? {
+              Authorization: `Bearer ${authToken}`,
+            }
+          : {},
       },
     },
-  })
+  )
+
+  return supabase
 }
