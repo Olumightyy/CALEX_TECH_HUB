@@ -1,5 +1,21 @@
 {
-  "node": {},
+  "node": {
+    "401a927936d7122a5d063739fc9ecf7415cdf49709": {
+      "workers": {
+        "app/teacher/courses/page": {
+          "moduleId": "[project]/.next-internal/server/app/teacher/courses/page/actions.js { ACTIONS_MODULE0 => \"[project]/app/teacher/courses/page.tsx [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "$$RSC_SERVER_ACTION_0",
+          "filename": "app/teacher/courses/page.tsx"
+        }
+      },
+      "layer": {
+        "app/teacher/courses/page": "rsc"
+      },
+      "filename": "app/teacher/courses/page.tsx",
+      "exportedName": "$$RSC_SERVER_ACTION_0"
+    }
+  },
   "edge": {},
   "encryptionKey": "Gez/NhhuJmbt2qYzSApBc2p8D8iNqoJgLbrQE7B5OJ0="
 }

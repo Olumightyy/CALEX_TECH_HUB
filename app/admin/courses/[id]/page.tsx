@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Link from "next/link"
-import { ArrowLeft, BookOpen, Users, Clock, DollarSign, Eye } from "lucide-react"
+import { ArrowLeft, BookOpen, Users, Clock, Eye } from "lucide-react"
 import { CourseApprovalActions } from "@/components/admin/course-approval-actions"
 
 export default async function AdminCourseReviewPage({
@@ -127,17 +127,15 @@ export default async function AdminCourseReviewPage({
           </CardContent>
         </Card>
         <Card className="border-0 shadow-sm">
-          <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <div className="p-2 rounded-lg bg-blue-50">
-                <DollarSign className="h-5 w-5 text-blue-600" />
+                <span className="text-xl font-bold text-blue-600 px-1">₦</span>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Price</p>
-                <p className="text-xl font-bold">{course.price === 0 ? "Free" : `$${course.price}`}</p>
+                <p className="text-xl font-bold">{course.price === 0 ? "Free" : `₦${course.price.toLocaleString()}`}</p>
               </div>
             </div>
-          </CardContent>
         </Card>
       </div>
 

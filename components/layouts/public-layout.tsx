@@ -147,7 +147,7 @@ export function PublicLayout({ children }: { children: React.ReactNode }) {
             </div>
           </div>
           <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-500 text-sm">© {new Date().getFullYear()} CalexHub. All rights reserved.</p>
+            <p className="text-slate-500 text-sm">© {new Date().getFullYear()} CalexDigital. All rights reserved.</p>
             <div className="flex gap-6 text-sm text-slate-500">
               <Link href="/terms" className="hover:text-slate-300">Terms</Link>
               <Link href="/privacy" className="hover:text-slate-300">Privacy</Link>

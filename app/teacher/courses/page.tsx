@@ -7,12 +7,16 @@ import Link from "next/link"
 import { BookOpen, Users, PlusCircle, MoreVertical, Edit, Eye, Trash2, Search, Filter } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
+import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 
 export default async function TeacherCoursesPage() {
   const supabase = await createClient()
   const {
     data: { user },
   } = await supabase.auth.getUser()
+
+  if (!user) return redirect("/auth/login")
 
   const { data: courses } = await supabase
     .from("courses")
@@ -22,7 +26,7 @@ export default async function TeacherCoursesPage() {
       modules(count),
       categories(name)
     `)
-    .eq("teacher_id", user?.id)
+    .eq("teacher_id", user.id)
     .order("created_at", { ascending: false })
 
   const allCourses = courses || []
@@ -30,6 +34,22 @@ export default async function TeacherCoursesPage() {
   const draftCourses = allCourses.filter((c) => c.status === "draft")
   const pendingCourses = allCourses.filter((c) => c.status === "pending_review")
   const rejectedCourses = allCourses.filter((c) => c.status === "rejected")
+
+  const deleteCourse = async (formData: FormData) => {
+    "use server"
+    const courseId = formData.get("courseId") as string
+    if (!courseId) return
+
+    const supabase = await createClient()
+    const { error } = await supabase.from("courses").delete().eq("id", courseId)
+    
+    if (error) {
+        console.error("Delete failed:", error)
+        // Ideally show toast, but difficult in server action without client component wrapper
+        // Use revalidatePath to refresh
+    }
+    revalidatePath("/teacher/courses")
+  }
 
   const getStatusBadge = (status: string) => {
     switch (status) {
@@ -101,10 +121,13 @@ export default async function TeacherCoursesPage() {
                       Preview Public Page
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="text-red-600 focus:text-red-700 focus:bg-red-50 cursor-pointer">
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    Delete
-                  </DropdownMenuItem>
+                  <form action={deleteCourse}>
+                      <input type="hidden" name="courseId" value={course.id} />
+                      <button type="submit" className="w-full flex items-center px-2 py-1.5 text-sm text-red-600 hover:bg-red-50 focus:bg-red-50 rounded-sm cursor-pointer outline-none">
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        Delete
+                      </button>
+                  </form>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

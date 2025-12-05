@@ -926,7 +926,7 @@ function PublicLayout({ children }) {
                                     children: [
                                         "© ",
                                         new Date().getFullYear(),
-                                        " CalexHub. All rights reserved."
+                                        " CalexDigital. All rights reserved."
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/components/layouts/public-layout.tsx",
