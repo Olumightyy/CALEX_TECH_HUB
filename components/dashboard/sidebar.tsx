@@ -27,17 +27,16 @@ import {
   FileText,
   BarChart3,
   DollarSign,
+  CheckSquare,
   PlusCircle,
   Layers,
   ShieldCheck,
   LogOut,
-  ChevronRight,
 } from "lucide-react"
 import type { Profile } from "@/lib/types/database"
 import type { LucideIcon } from "lucide-react"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
-import { cn } from "@/lib/utils"
 
 interface NavItem {
   href: string
@@ -70,9 +69,10 @@ const adminNavItems: NavItem[] = [
   { href: "/admin/courses", label: "Courses", icon: Layers },
   { href: "/admin/teachers", label: "Teachers", icon: Users },
   { href: "/admin/students", label: "Students", icon: Users },
-  { href: "/admin/revenue", label: "Revenue", icon: DollarSign },
+  { href: "/admin/payments", label: "Payments", icon: DollarSign },
+  { href: "/admin/reviews", label: "Reviews", icon: CheckSquare },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
-  { href: "/admin/logs", label: "Audit Logs", icon: FileText },
+  { href: "/admin/logs", label: "Logs", icon: FileText },
 ]
 
 export function DashboardSidebar({ profile, role }: DashboardSidebarProps) {
@@ -80,10 +80,8 @@ export function DashboardSidebar({ profile, role }: DashboardSidebarProps) {
   const router = useRouter()
 
   const navItems = role === "admin" ? adminNavItems : role === "teacher" ? teacherNavItems : studentNavItems
+
   const homeLink = role === "admin" ? "/admin" : role === "teacher" ? "/teacher" : "/student"
-  const roleLabel = role === "admin" ? "Administrator" : role === "teacher" ? "Instructor" : "Learner"
-  const roleColor = role === "admin" ? "text-rose-600" : role === "teacher" ? "text-emerald-600" : "text-primary"
-  const roleBg = role === "admin" ? "bg-rose-500/10" : role === "teacher" ? "bg-emerald-500/10" : "bg-primary/10"
 
   const handleSignOut = async () => {
     const supabase = createClient()
@@ -94,82 +92,48 @@ export function DashboardSidebar({ profile, role }: DashboardSidebarProps) {
 
   return (
     <SidebarProvider>
-      <SidebarUI className="border-r border-border bg-card">
-        {/* Header */}
-        <SidebarHeader className="border-b border-border p-5">
-          <Link href={homeLink} className="flex items-center gap-3">
-            <div className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
-              <GraduationCap className="h-5 w-5 text-primary-foreground" />
-              <div className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-accent" />
+      <SidebarUI className="border-r border-border">
+        <SidebarHeader className="border-b border-border p-4">
+          <Link href={homeLink} className="flex items-center gap-2">
+            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+              <GraduationCap className="h-5 w-5" />
             </div>
             <div className="flex flex-col">
-              <span className="font-semibold text-foreground">EduPlatform</span>
-              <span className={cn("text-[10px] font-medium uppercase tracking-wide", roleColor)}>
-                {roleLabel} Portal
-              </span>
+              <span className="font-semibold">EduPlatform</span>
+              <span className="text-xs capitalize text-muted-foreground">{role} Portal</span>
             </div>
           </Link>
         </SidebarHeader>
 
-        <SidebarContent className="scrollbar-thin p-3">
-          {/* Main Navigation */}
+        <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Main Menu
-            </SidebarGroupLabel>
+            <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu className="space-y-1">
-                {navItems.map((item) => {
-                  const isActive =
-                    pathname === item.href || (item.href !== homeLink && pathname.startsWith(item.href + "/"))
-                  return (
-                    <SidebarMenuItem key={item.href}>
-                      <SidebarMenuButton asChild isActive={isActive}>
-                        <Link
-                          href={item.href}
-                          className={cn(
-                            "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
-                            isActive
-                              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                              : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                          )}
-                        >
-                          <item.icon className={cn("h-5 w-5", isActive && "text-primary-foreground")} />
-                          <span className="flex-1">{item.label}</span>
-                          {isActive && <ChevronRight className="h-4 w-4" />}
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  )
-                })}
+              <SidebarMenu>
+                {navItems.map((item) => (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton asChild isActive={pathname === item.href}>
+                      <Link href={item.href}>
+                        <item.icon className="h-4 w-4" />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
 
-          {/* Admin Extras */}
           {role === "admin" && (
-            <SidebarGroup className="mt-4">
-              <SidebarGroupLabel className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                Administration
-              </SidebarGroupLabel>
+            <SidebarGroup>
+              <SidebarGroupLabel>Administration</SidebarGroupLabel>
               <SidebarGroupContent>
-                <SidebarMenu className="space-y-1">
+                <SidebarMenu>
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild isActive={pathname === "/admin/verifications"}>
-                      <Link
-                        href="/admin/verifications"
-                        className={cn(
-                          "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
-                          pathname === "/admin/verifications"
-                            ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                            : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                        )}
-                      >
-                        <ShieldCheck className="h-5 w-5" />
-                        <span className="flex-1">Teacher Verification</span>
-                        <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1.5 text-xs font-bold text-accent-foreground">
-                          3
-                        </span>
+                      <Link href="/admin/verifications">
+                        <ShieldCheck className="h-4 w-4" />
+                        <span>Teacher Verification</span>
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
@@ -178,46 +142,29 @@ export function DashboardSidebar({ profile, role }: DashboardSidebarProps) {
             </SidebarGroup>
           )}
 
-          {/* Support */}
-          <SidebarGroup className="mt-auto pt-4">
-            <SidebarGroupLabel className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Support
-            </SidebarGroupLabel>
+          <SidebarGroup>
+            <SidebarGroupLabel>Support</SidebarGroupLabel>
             <SidebarGroupContent>
-              <SidebarMenu className="space-y-1">
+              <SidebarMenu>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild isActive={pathname.includes("/settings")}>
-                    <Link
-                      href={`/${role}/settings`}
-                      className={cn(
-                        "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all",
-                        pathname.includes("/settings")
-                          ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                          : "text-muted-foreground hover:bg-muted hover:text-foreground",
-                      )}
-                    >
-                      <Settings className="h-5 w-5" />
+                    <Link href={`/${role}/settings`}>
+                      <Settings className="h-4 w-4" />
                       <span>Settings</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <Link
-                      href="/help"
-                      className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all hover:bg-muted hover:text-foreground"
-                    >
-                      <HelpCircle className="h-5 w-5" />
+                    <Link href="/help">
+                      <HelpCircle className="h-4 w-4" />
                       <span>Help Center</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem>
-                  <SidebarMenuButton
-                    onClick={handleSignOut}
-                    className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-destructive transition-all hover:bg-destructive/10"
-                  >
-                    <LogOut className="h-5 w-5" />
+                  <SidebarMenuButton onClick={handleSignOut}>
+                    <LogOut className="h-4 w-4" />
                     <span>Sign Out</span>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -226,13 +173,9 @@ export function DashboardSidebar({ profile, role }: DashboardSidebarProps) {
           </SidebarGroup>
         </SidebarContent>
 
-        {/* Footer - User Profile */}
         <SidebarFooter className="border-t border-border p-4">
-          <Link
-            href={`/${role}/settings`}
-            className="flex items-center gap-3 rounded-xl p-2 transition-colors hover:bg-muted"
-          >
-            <div className="h-10 w-10 overflow-hidden rounded-full bg-muted ring-2 ring-border">
+          <div className="flex items-center gap-3">
+            <div className="h-9 w-9 overflow-hidden rounded-full bg-muted">
               {profile.avatar_url ? (
                 <img
                   src={profile.avatar_url || "/placeholder.svg"}
@@ -240,19 +183,16 @@ export function DashboardSidebar({ profile, role }: DashboardSidebarProps) {
                   className="h-full w-full object-cover"
                 />
               ) : (
-                <div
-                  className={cn("flex h-full w-full items-center justify-center text-sm font-bold", roleBg, roleColor)}
-                >
+                <div className="flex h-full w-full items-center justify-center bg-primary text-sm font-medium text-primary-foreground">
                   {profile.full_name?.charAt(0) || profile.email.charAt(0).toUpperCase()}
                 </div>
               )}
             </div>
             <div className="flex-1 overflow-hidden">
-              <p className="truncate text-sm font-semibold text-foreground">{profile.full_name || "User"}</p>
+              <p className="truncate text-sm font-medium">{profile.full_name || "User"}</p>
               <p className="truncate text-xs text-muted-foreground">{profile.email}</p>
             </div>
-            <ChevronRight className="h-4 w-4 text-muted-foreground" />
-          </Link>
+          </div>
         </SidebarFooter>
       </SidebarUI>
     </SidebarProvider>

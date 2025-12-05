@@ -3,18 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
-import {
-  BookOpen,
-  Users,
-  Clock,
-  AlertCircle,
-  PlusCircle,
-  BarChart3,
-  MessageSquare,
-  Settings,
-  TrendingUp,
-  ArrowRight,
-} from "lucide-react"
+import { BookOpen, Users, Clock, AlertCircle, PlusCircle, BarChart3, MessageSquare, Settings } from "lucide-react"
 
 export default async function TeacherDashboard() {
   const supabase = await createClient()
@@ -22,25 +11,34 @@ export default async function TeacherDashboard() {
     data: { user },
   } = await supabase.auth.getUser()
 
+  // Fetch teacher's courses
   const { data: courses } = await supabase
     .from("courses")
-    .select(`*, enrollments(count), modules(count)`)
+    .select(`
+      *,
+      enrollments(count),
+      modules(count)
+    `)
     .eq("teacher_id", user?.id)
     .order("created_at", { ascending: false })
 
+  // Fetch total enrollments across all courses
   const { count: totalEnrollments } = await supabase
     .from("enrollments")
     .select("*, courses!inner(*)", { count: "exact", head: true })
     .eq("courses.teacher_id", user?.id)
 
+  // Fetch recent enrollments
   const { data: recentEnrollments } = await supabase
     .from("enrollments")
-    .select(`*, courses!inner(*), profiles(full_name, avatar_url)`)
+    .select(`
+      *,
+      courses!inner(*),
+      profiles(full_name, avatar_url)
+    `)
     .eq("courses.teacher_id", user?.id)
     .order("enrolled_at", { ascending: false })
     .limit(5)
-
-  const { data: profile } = await supabase.from("profiles").select("full_name").eq("id", user?.id).single()
 
   const publishedCourses = courses?.filter((c) => c.status === "published").length || 0
   const pendingCourses = courses?.filter((c) => c.status === "pending_review").length || 0
@@ -50,64 +48,60 @@ export default async function TeacherDashboard() {
     {
       title: "Total Courses",
       value: courses?.length || 0,
-      subtitle: `${publishedCourses} published`,
       icon: BookOpen,
-      color: "text-blue-600",
-      bg: "bg-blue-500/10",
-      trend: "+2 this month",
+      description: `${publishedCourses} published`,
+      color: "text-primary",
+      bgColor: "bg-primary/10",
     },
     {
       title: "Total Students",
       value: totalEnrollments || 0,
-      subtitle: "Enrolled across all courses",
       icon: Users,
+      description: "Enrolled in your courses",
       color: "text-emerald-600",
-      bg: "bg-emerald-500/10",
-      trend: "+12% growth",
+      bgColor: "bg-emerald-50",
     },
     {
       title: "Pending Review",
       value: pendingCourses,
-      subtitle: "Awaiting approval",
       icon: Clock,
+      description: "Awaiting admin approval",
       color: "text-amber-600",
-      bg: "bg-amber-500/10",
+      bgColor: "bg-amber-50",
     },
     {
       title: "Draft Courses",
       value: draftCourses,
-      subtitle: "Not yet submitted",
       icon: AlertCircle,
-      color: "text-slate-600",
-      bg: "bg-slate-500/10",
+      description: "Not yet submitted",
+      color: "text-muted-foreground",
+      bgColor: "bg-muted",
     },
   ]
 
   const getStatusBadge = (status: string) => {
-    const styles: Record<string, string> = {
-      published: "bg-emerald-500/10 text-emerald-700 border-emerald-500/20",
-      pending_review: "bg-amber-500/10 text-amber-700 border-amber-500/20",
-      draft: "bg-slate-500/10 text-slate-700 border-slate-500/20",
-      rejected: "bg-rose-500/10 text-rose-700 border-rose-500/20",
+    switch (status) {
+      case "published":
+        return <Badge className="bg-emerald-100 text-emerald-700">Published</Badge>
+      case "pending_review":
+        return <Badge className="bg-amber-100 text-amber-700">Pending Review</Badge>
+      case "draft":
+        return <Badge variant="secondary">Draft</Badge>
+      case "rejected":
+        return <Badge variant="destructive">Rejected</Badge>
+      default:
+        return <Badge variant="outline">{status}</Badge>
     }
-    return (
-      <Badge variant="outline" className={styles[status] || ""}>
-        {status.replace("_", " ")}
-      </Badge>
-    )
   }
 
-  const firstName = profile?.full_name?.split(" ")[0] || "Instructor"
-
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome back, {firstName}!</h1>
-          <p className="mt-1 text-muted-foreground">Manage your courses and track student engagement</p>
+          <h1 className="text-3xl font-bold text-foreground">Teacher Dashboard</h1>
+          <p className="text-muted-foreground mt-1">Manage your courses and track student engagement</p>
         </div>
-        <Button asChild className="rounded-xl shadow-lg shadow-primary/20">
+        <Button asChild className="bg-primary hover:bg-primary/90">
           <Link href="/teacher/courses/new">
             <PlusCircle className="mr-2 h-4 w-4" />
             Create Course
@@ -116,24 +110,18 @@ export default async function TeacherDashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => (
-          <Card key={stat.title} className="border-border/50 shadow-sm transition-all hover:shadow-md">
+          <Card key={stat.title} className="border-0 shadow-sm">
             <CardContent className="p-6">
-              <div className="flex items-start justify-between">
+              <div className="flex items-center gap-4">
+                <div className={`p-3 rounded-xl ${stat.bgColor}`}>
+                  <stat.icon className={`h-6 w-6 ${stat.color}`} />
+                </div>
                 <div>
                   <p className="text-sm font-medium text-muted-foreground">{stat.title}</p>
-                  <p className="mt-2 text-3xl font-bold text-foreground">{stat.value}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{stat.subtitle}</p>
-                  {stat.trend && (
-                    <p className="mt-2 flex items-center gap-1 text-xs font-medium text-emerald-600">
-                      <TrendingUp className="h-3 w-3" />
-                      {stat.trend}
-                    </p>
-                  )}
-                </div>
-                <div className={`rounded-xl p-3 ${stat.bg}`}>
-                  <stat.icon className={`h-6 w-6 ${stat.color}`} />
+                  <p className="text-2xl font-bold text-foreground">{stat.value}</p>
+                  <p className="text-xs text-muted-foreground">{stat.description}</p>
                 </div>
               </div>
             </CardContent>
@@ -143,47 +131,37 @@ export default async function TeacherDashboard() {
 
       <div className="grid gap-6 lg:grid-cols-3">
         {/* My Courses */}
-        <Card className="lg:col-span-2 border-border/50 shadow-sm">
-          <CardHeader className="flex flex-row items-center justify-between pb-4">
+        <Card className="lg:col-span-2 border-0 shadow-sm">
+          <CardHeader className="flex flex-row items-center justify-between">
             <div>
               <CardTitle>My Courses</CardTitle>
               <CardDescription>Your created courses and their status</CardDescription>
             </div>
-            <Button variant="outline" size="sm" asChild className="rounded-lg bg-transparent">
+            <Button variant="outline" size="sm" asChild>
               <Link href="/teacher/courses">View All</Link>
             </Button>
           </CardHeader>
           <CardContent>
             {courses && courses.length > 0 ? (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {courses.slice(0, 5).map((course) => (
                   <div
                     key={course.id}
-                    className="flex items-center justify-between rounded-xl bg-muted/50 p-4 transition-colors hover:bg-muted"
+                    className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="h-14 w-20 overflow-hidden rounded-lg bg-primary/10">
-                        {course.thumbnail_url ? (
-                          <img
-                            src={course.thumbnail_url || "/placeholder.svg"}
-                            alt={course.title}
-                            className="h-full w-full object-cover"
-                          />
-                        ) : (
-                          <div className="flex h-full w-full items-center justify-center">
-                            <BookOpen className="h-6 w-6 text-primary" />
-                          </div>
-                        )}
+                      <div className="w-16 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                        <BookOpen className="h-6 w-6 text-primary" />
                       </div>
                       <div>
                         <h4 className="font-medium text-foreground">{course.title}</h4>
-                        <div className="mt-1 flex items-center gap-3 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-3 mt-1 text-sm text-muted-foreground">
                           <span className="flex items-center gap-1">
-                            <Users className="h-3.5 w-3.5" />
+                            <Users className="h-3 w-3" />
                             {course.enrollments?.[0]?.count || 0} students
                           </span>
                           <span className="flex items-center gap-1">
-                            <BookOpen className="h-3.5 w-3.5" />
+                            <BookOpen className="h-3 w-3" />
                             {course.modules?.[0]?.count || 0} modules
                           </span>
                         </div>
@@ -191,7 +169,7 @@ export default async function TeacherDashboard() {
                     </div>
                     <div className="flex items-center gap-3">
                       {getStatusBadge(course.status)}
-                      <Button variant="ghost" size="sm" asChild className="rounded-lg">
+                      <Button variant="ghost" size="sm" asChild>
                         <Link href={`/teacher/courses/${course.id}`}>Edit</Link>
                       </Button>
                     </div>
@@ -199,13 +177,11 @@ export default async function TeacherDashboard() {
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-12 text-center">
-                <div className="mb-4 rounded-full bg-muted p-4">
-                  <BookOpen className="h-8 w-8 text-muted-foreground" />
-                </div>
-                <h3 className="text-lg font-medium text-foreground">No courses yet</h3>
-                <p className="mt-1 text-sm text-muted-foreground">Create your first course to start teaching</p>
-                <Button className="mt-4 rounded-xl" asChild>
+              <div className="text-center py-12">
+                <BookOpen className="h-12 w-12 mx-auto text-muted-foreground/50" />
+                <h3 className="mt-4 text-lg font-medium text-foreground">No courses yet</h3>
+                <p className="mt-2 text-muted-foreground">Create your first course to start teaching</p>
+                <Button className="mt-4" asChild>
                   <Link href="/teacher/courses/new">Create Course</Link>
                 </Button>
               </div>
@@ -214,8 +190,8 @@ export default async function TeacherDashboard() {
         </Card>
 
         {/* Recent Enrollments */}
-        <Card className="border-border/50 shadow-sm">
-          <CardHeader className="pb-4">
+        <Card className="border-0 shadow-sm">
+          <CardHeader>
             <CardTitle>Recent Enrollments</CardTitle>
             <CardDescription>New students in your courses</CardDescription>
           </CardHeader>
@@ -224,35 +200,27 @@ export default async function TeacherDashboard() {
               <div className="space-y-4">
                 {recentEnrollments.map((enrollment) => (
                   <div key={enrollment.id} className="flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-primary/10">
-                      {enrollment.profiles?.avatar_url ? (
-                        <img
-                          src={enrollment.profiles.avatar_url || "/placeholder.svg"}
-                          alt=""
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        <span className="text-sm font-semibold text-primary">
-                          {enrollment.profiles?.full_name?.charAt(0) || "S"}
-                        </span>
-                      )}
+                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                      <span className="text-sm font-medium text-primary">
+                        {enrollment.profiles?.full_name?.charAt(0) || "S"}
+                      </span>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-medium text-foreground">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-foreground truncate">
                         {enrollment.profiles?.full_name || "Student"}
                       </p>
-                      <p className="truncate text-xs text-muted-foreground">{enrollment.courses?.title}</p>
+                      <p className="text-xs text-muted-foreground truncate">{enrollment.courses?.title}</p>
                     </div>
-                    <p className="flex-shrink-0 text-xs text-muted-foreground">
+                    <p className="text-xs text-muted-foreground">
                       {new Date(enrollment.enrolled_at).toLocaleDateString()}
                     </p>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-8 text-center">
-                <Users className="mb-2 h-8 w-8 text-muted-foreground" />
-                <p className="text-sm text-muted-foreground">No enrollments yet</p>
+              <div className="text-center py-8">
+                <Users className="h-8 w-8 mx-auto text-muted-foreground/50" />
+                <p className="mt-2 text-sm text-muted-foreground">No enrollments yet</p>
               </div>
             )}
           </CardContent>
@@ -260,53 +228,37 @@ export default async function TeacherDashboard() {
       </div>
 
       {/* Quick Actions */}
-      <Card className="border-border/50 shadow-sm">
-        <CardHeader className="pb-4">
+      <Card className="border-0 shadow-sm">
+        <CardHeader>
           <CardTitle>Quick Actions</CardTitle>
           <CardDescription>Common tasks for course creators</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {[
-              {
-                href: "/teacher/courses/new",
-                icon: PlusCircle,
-                label: "Create Course",
-                color: "text-blue-600",
-                bg: "bg-blue-500/10",
-              },
-              {
-                href: "/teacher/analytics",
-                icon: BarChart3,
-                label: "View Analytics",
-                color: "text-emerald-600",
-                bg: "bg-emerald-500/10",
-              },
-              {
-                href: "/teacher/announcements",
-                icon: MessageSquare,
-                label: "Announcements",
-                color: "text-amber-600",
-                bg: "bg-amber-500/10",
-              },
-              {
-                href: "/teacher/settings",
-                icon: Settings,
-                label: "Settings",
-                color: "text-slate-600",
-                bg: "bg-slate-500/10",
-              },
-            ].map((action) => (
-              <Link key={action.href} href={action.href}>
-                <div className="flex items-center gap-4 rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/30 hover:shadow-md">
-                  <div className={`rounded-xl p-3 ${action.bg}`}>
-                    <action.icon className={`h-5 w-5 ${action.color}`} />
-                  </div>
-                  <span className="font-medium text-foreground">{action.label}</span>
-                  <ArrowRight className="ml-auto h-4 w-4 text-muted-foreground" />
-                </div>
+          <div className="grid gap-4 md:grid-cols-4">
+            <Button variant="outline" className="h-auto py-4 flex-col gap-2 bg-transparent" asChild>
+              <Link href="/teacher/courses/new">
+                <PlusCircle className="h-6 w-6 text-primary" />
+                <span>Create New Course</span>
               </Link>
-            ))}
+            </Button>
+            <Button variant="outline" className="h-auto py-4 flex-col gap-2 bg-transparent" asChild>
+              <Link href="/teacher/analytics">
+                <BarChart3 className="h-6 w-6 text-emerald-600" />
+                <span>View Analytics</span>
+              </Link>
+            </Button>
+            <Button variant="outline" className="h-auto py-4 flex-col gap-2 bg-transparent" asChild>
+              <Link href="/teacher/announcements">
+                <MessageSquare className="h-6 w-6 text-amber-600" />
+                <span>Post Announcement</span>
+              </Link>
+            </Button>
+            <Button variant="outline" className="h-auto py-4 flex-col gap-2 bg-transparent" asChild>
+              <Link href="/teacher/settings">
+                <Settings className="h-6 w-6 text-muted-foreground" />
+                <span>Settings</span>
+              </Link>
+            </Button>
           </div>
         </CardContent>
       </Card>

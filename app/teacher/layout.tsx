@@ -33,9 +33,9 @@ export default async function TeacherLayout({
     <SidebarProvider>
       <div className="flex min-h-screen w-full">
         <DashboardSidebar profile={profile} role="teacher" />
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex flex-1 flex-col">
           <DashboardHeader profile={profile} />
-          <main className="flex-1 overflow-auto bg-muted/30 p-3 sm:p-4 md:p-6">{children}</main>
+          <main className="flex-1 p-6 bg-muted/30">{children}</main>
         </div>
       </div>
     </SidebarProvider>
