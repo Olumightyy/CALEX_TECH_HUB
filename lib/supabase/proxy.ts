@@ -1,45 +1,34 @@
-import { createClient as createSupabaseClient } from "@supabase/supabase-js"
+import { createServerClient } from "@supabase/ssr"
 import { NextResponse, type NextRequest } from "next/server"
 
 export async function updateSession(request: NextRequest) {
-  const supabaseResponse = NextResponse.next({
+  let supabaseResponse = NextResponse.next({
     request,
   })
 
-  // Create Supabase client
-  const supabase = createSupabaseClient(
+  const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
-      auth: {
-        persistSession: false,
+      cookies: {
+        getAll() {
+          return request.cookies.getAll()
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          supabaseResponse = NextResponse.next({
+            request,
+          })
+          cookiesToSet.forEach(({ name, value, options }) => supabaseResponse.cookies.set(name, value, options))
+        },
       },
     },
   )
 
-  // Get auth token from request cookies
-  const authCookie = request.cookies
-    .getAll()
-    .find((cookie) => cookie.name.includes("auth-token") || cookie.name.includes("sb-"))
-
-  if (!authCookie) {
-    // No auth, proceed with checks
-    const pathname = request.nextUrl.pathname
-    const isProtectedRoute =
-      pathname.startsWith("/student") || pathname.startsWith("/teacher") || pathname.startsWith("/admin")
-
-    if (isProtectedRoute) {
-      const url = request.nextUrl.clone()
-      url.pathname = "/auth/login"
-      return NextResponse.redirect(url)
-    }
-    return supabaseResponse
-  }
-
-  // Set auth for this request
+  // Refresh session if expired
   const {
     data: { user },
-  } = await supabase.auth.getUser(authCookie.value)
+  } = await supabase.auth.getUser()
 
   // Protected routes by role
   const pathname = request.nextUrl.pathname
@@ -73,7 +62,7 @@ export async function updateSession(request: NextRequest) {
           url.pathname = "/"
           return NextResponse.redirect(url)
         }
-        if (profile.role === "teacher" && !profile.is_verified) {
+        if (profile.role === "teacher" && !profile.is_verified && pathname !== "/teacher/verification-pending") {
           const url = request.nextUrl.clone()
           url.pathname = "/teacher/verification-pending"
           return NextResponse.redirect(url)
