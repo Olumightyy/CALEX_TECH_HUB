@@ -1,0 +1,316 @@
+[00:00:08.771] Server  LOG      ○ Compiling proxy ...
+[00:00:09.547] Server  LOG     
+[00:00:09.548] Server  LOG        We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+[00:00:09.549] Server  LOG        The following suggested values were added to your tsconfig.json. These values can be changed to fit your project's needs:
+
+[00:00:09.550] Server  LOG        	- include was updated to add '.next/dev/types/**/*.ts'
+[00:00:09.551] Server  LOG     
+[00:00:09.552] Server  LOG        The following mandatory changes were made to your tsconfig.json:
+
+[00:00:09.553] Server  LOG        	- jsx was set to react-jsx (next.js uses the React automatic runtime)
+[00:00:09.554] Server  LOG     
+[00:00:11.673] Server  LOG      ✓ Ready in 9.6s
+[00:00:12.416] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\node_modules_f00aaa27._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:12.431] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\[root-of-the-server]__d8bc4fb6._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:12.491] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\node_modules_next_6762cb56._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:12.618] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:12.689] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:12.752] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:12.854] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:12.906] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\router-utils\resolve-routes.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:12.940] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:13.048] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:00:13.054] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:00:16.070] Server  LOG      ○ Compiling /_error ...
+[00:00:22.237] Server  LOG      ○ Compiling /_not-found/page ...
+[00:00:24.820] Browser ERROR   uncaughtError: Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:02:36.250] Server  LOG        Reload env: .env
+[00:02:36.915] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\node_modules_f00aaa27._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:02:36.921] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\[root-of-the-server]__d8bc4fb6._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:02:37.033] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\node_modules_next_6762cb56._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:02:37.047] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:02:37.064] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:02:37.074] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:02:37.091] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:02:37.098] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\router-utils\resolve-routes.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:02:37.107] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:02:37.122] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:02:37.133] Server  ERROR    ⨯ Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:02:39.508] Browser ERROR   uncaughtError: Error: Your project's URL and Key are required to create a Supabase client!
+
+Check your Supabase project's API settings to find these values
+
+https://supabase.com/dashboard/project/_/settings/api
+[00:11:32.949] Server  LOG        Reload env: .env
+[00:11:36.459] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\node_modules_f00aaa27._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:36.460] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\[root-of-the-server]__d8bc4fb6._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:36.478] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\node_modules_next_6762cb56._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:36.514] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:36.528] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:36.534] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:36.536] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:36.538] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\router-utils\resolve-routes.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:36.539] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:36.543] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:36.551] Server  ERROR    ⨯ Error: Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.
+[00:11:38.210] Server  LOG      ✓ Compiled in 782ms
+[00:11:40.913] Browser ERROR   uncaughtError: Error: Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.
+[00:11:55.350] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\node_modules_f00aaa27._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:55.353] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\[root-of-the-server]__d8bc4fb6._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:55.368] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\node_modules_next_6762cb56._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:55.371] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:55.372] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:55.374] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:55.380] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:55.382] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\router-utils\resolve-routes.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:55.385] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:55.388] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:11:55.400] Server  ERROR    ⨯ Error: Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.
+[00:11:57.224] Browser ERROR   uncaughtError: Error: Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.
+[00:12:16.063] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\node_modules_f00aaa27._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:12:16.064] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\[root-of-the-server]__d8bc4fb6._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:12:16.073] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\.next\dev\server\chunks\node_modules_next_6762cb56._.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:12:16.075] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\next-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:12:16.077] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\dev\next-dev-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:12:16.078] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\base-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:12:16.080] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\trace\trace.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:12:16.081] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\router-utils\resolve-routes.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:12:16.082] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\router-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:12:16.083] Server  ERROR   C:\Users\hp\Downloads\CALEX_TECH_HUB\CALEX_TECH_HUB\node_modules\next\dist\server\lib\start-server.js: Invalid source map. Only conformant source maps can be used to find the original code. Cause: Error: sourceMapURL could not be parsed
+[00:12:16.086] Server  ERROR    ⨯ Error: Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.
+[00:12:17.567] Browser ERROR   uncaughtError: Error: Invalid supabaseUrl: Must be a valid HTTP or HTTPS URL.
+[00:13:21.675] Server  LOG        Reload env: .env
+[00:13:21.956] Server  LOG      ✓ Compiled in 17ms
+[00:13:24.991] Server  LOG      ○ Compiling / ...
+[00:13:28.230] Server  ERROR    ⨯ ./components/layouts/public-layout.tsx:4:10
+Ecmascript file had an error
+  2 | import { Button } from "@/components/ui/button";
+  3 | import { Shield, Menu, X, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+> 4 | import { useState } from "react";
+    |          ^^^^^^^^
+  5 | import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+  6 |
+  7 | export function PublicLayout({ children }: { children: React.ReactNode }) {
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./components/layouts/public-layout.tsx
+    ./app/page.tsx
+
+
+[00:13:29.176] Browser ERROR   ./components/layouts/public-layout.tsx:4:10
+Ecmascript file had an error
+  2 | import { Button } from "@/components/ui/button";
+  3 | import { Shield, Menu, X, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+> 4 | import { useState } from "react";
+    |          ^^^^^^^^
+  5 | import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+  6 |
+  7 | export function PublicLayout({ children }: { children: React.ReactNode }) {
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+Import trace:
+  Server Component:
+    ./components/layouts/public-layout.tsx
+    ./app/page.tsx
+[00:13:30.569] Browser ERROR   uncaughtError: Error: ./components/layouts/public-layout.tsx:4:10
+Ecmascript file had an error
+  2 | import { Button } from "@/components/ui/button";
+  3 | import { Shield, Menu, X, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+> 4 | import { useState } from "react";
+    |          ^^^^^^^^
+  5 | import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+  6 |
+  7 | export function PublicLayout({ children }: { children: React.ReactNode }) {
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+
+
+Import trace:
+  Server Component:
+    ./components/layouts/public-layout.tsx
+    ./app/page.tsx
+
+
+[00:13:31.027] Browser ERROR   ./components/layouts/public-layout.tsx:4:10
+Ecmascript file had an error
+  2 | import { Button } from "@/components/ui/button";
+  3 | import { Shield, Menu, X, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+> 4 | import { useState } from "react";
+    |          ^^^^^^^^
+  5 | import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+  6 |
+  7 | export function PublicLayout({ children }: { children: React.ReactNode }) {
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+Import trace:
+  Server Component:
+    ./components/layouts/public-layout.tsx
+    ./app/page.tsx
+[00:13:31.027] Browser ERROR   ./components/layouts/public-layout.tsx:4:10
+Ecmascript file had an error
+  2 | import { Button } from "@/components/ui/button";
+  3 | import { Shield, Menu, X, Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+> 4 | import { useState } from "react";
+    |          ^^^^^^^^
+  5 | import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+  6 |
+  7 | export function PublicLayout({ children }: { children: React.ReactNode }) {
+
+You're importing a component that needs `useState`. This React Hook only works in a Client Component. To fix, mark the file (or its parent) with the `"use client"` directive.
+
+ Learn more: https://nextjs.org/docs/app/api-reference/directives/use-client
+
+Import trace:
+  Server Component:
+    ./components/layouts/public-layout.tsx
+    ./app/page.tsx
+[00:14:39.628] Server  LOG      ✓ Compiled in 742ms
+[00:14:50.998] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:14:53.033] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:14:53.033] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/","route":"/"}
+[00:14:53.033] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/ color: rgb(120, 120, 120) color: inherit {"dp":"/","o":"http://localhost:3000/","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1764936714274}
+[00:16:20.447] Server  LOG      ○ Compiling /auth/login ...
+[00:16:21.728] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/auth/login color: rgb(120, 120, 120) color: inherit {"dp":"/auth/login","o":"http://localhost:3000/auth/login","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1764936803927}
+[00:16:39.443] Server  LOG      ○ Compiling /admin ...
+[00:16:56.751] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin color: rgb(120, 120, 120) color: inherit {"dp":"/admin","o":"http://localhost:3000/admin","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1764936838911}
+[00:19:44.709] Server  LOG      ✓ Compiled in 68.9s
+[00:19:50.840] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:19:55.280] Browser ERROR   A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <InnerLayoutRouter url="/admin" tree={[...]} params={{}} cacheNode={{lazyData:null, ...}} segmentPath={[...]} ...>
+      <SegmentViewNode type="layout" pagePath="admin/layo...">
+        <SegmentTrieNode>
+        <script>
+        <script>
+        <script>
+        <script>
+        <script>
+        <script>
+        <AdminLayout>
+          <SidebarProvider>
+            <TooltipProvider delayDuration={0}>
+              <TooltipProvider data-slot="tooltip-pr..." delayDuration={0}>
+                <TooltipProviderProvider scope={undefined} isOpenDelayed={true} delayDuration={0} ...>
+                  <div data-slot="sidebar-wr..." style={{...}} className="group/side...">
+                    <div className="flex min-h...">
+                      <DashboardSidebar>
+                      <div className="flex flex-...">
+                        <DashboardHeader profile={{id:"d42232...", ...}}>
+                          <header
++                           className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-slate-..."
+-                           className="sticky top-0 z-40 flex h-16 items-center justify-between border-b border-border..."
+                          >
+                            <div className="flex items...">
+                              <SidebarTrigger className="text-slate...">
+                                <Button data-sidebar="trigger" data-slot="sidebar-tr..." variant="ghost" size="icon" ...>
+                                  <button
+                                    data-slot="sidebar-trigger"
++                                   className={"inline-flex items-center justify-center gap-2 whitespace-nowrap round..."}
+-                                   className={"inline-flex items-center justify-center gap-2 whitespace-nowrap round..."}
+                                    data-sidebar="trigger"
+                                    onClick={function onClick}
+                                  >
+                            <div className="flex items...">
+                              <Button variant="outline" size="sm" asChild={true} className="hidden sm:...">
+                                <Slot data-slot="button" className={"items-ce..."}>
+                                  <SlotClone data-slot="button" className={"items-ce..."} ref={null}>
+                                    <a
+                                      href="/"
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      data-slot="button"
++                                     className={"items-center justify-center whitespace-nowrap text-sm font-medium t..."}
+-                                     className={"inline-flex items-center justify-center whitespace-nowrap text-sm f..."}
+                                      ref={null}
+                                    >
+                              <Button variant="ghost" size="icon" className="relative t...">
+                                <button
+                                  data-slot="button"
++                                 className={"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded..."}
+-                                 className={"inline-flex items-center justify-center gap-2 whitespace-nowrap rounded..."}
+                                >
+                                  <Bell>
+                                  <span
++                                   className="absolute right-2 top-2 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white"
+-                                   className="absolute right-1 top-1 h-2 w-2 rounded-full bg-destructive"
+                                  >
+                              ...
+                                <Slot type="button" id="radix-_R_1..." aria-haspopup="menu" aria-expanded={false} ...>
+                                  <SlotClone type="button" id="radix-_R_1..." aria-haspopup="menu" aria-expanded={false} ...>
+                                    <Button variant="ghost" className="relative h..." type="button" id="radix-_R_1..." ...>
+                                      <button
+                                        data-slot="dropdown-menu-trigger"
++                                       className={"inline-flex items-center justify-center gap-2 whitespace-nowrap t..."}
+-                                       className={"inline-flex items-center justify-center gap-2 whitespace-nowrap t..."}
+                                        type="button"
++                                       id="radix-_R_1pkndlb_"
+-                                       id="radix-_R_76kndlb_"
+                                        aria-haspopup="menu"
+                                        aria-expanded={false}
+                                        aria-controls={undefined}
+                                        data-state="closed"
+                                        data-disabled={undefined}
+                                        disabled={false}
+                                        onPointerDown={function handleEvent}
+                                        onKeyDown={function handleEvent}
+                                        ref={function}
+                                      >
+                                        <div
++                                         className="h-9 w-9 overflow-hidden rounded-full bg-slate-100 border border-s..."
+-                                         className="h-9 w-9 overflow-hidden rounded-full bg-muted"
+                                        >
+                                          <div
++                                           className="flex h-full w-full items-center justify-center bg-slate-900 tex..."
+-                                           className="flex h-full w-full items-center justify-center bg-primary text-..."
+                                          >
++                                           C
+                        ...
+
+[00:19:55.281] Browser LOG     %c[Vercel Web Analytics]%c Debug mode is enabled by default in development. No requests will be sent to the server. color: rgb(120, 120, 120) color: inherit
+[00:19:55.281] Browser LOG     %c[Vercel Web Analytics]%c Running queued event color: rgb(120, 120, 120) color: inherit pageview {"path":"/admin","route":"/admin"}
+[00:19:55.281] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin color: rgb(120, 120, 120) color: inherit {"dp":"/admin","o":"http://localhost:3000/admin","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1764937017203}
+[00:20:54.628] Server  LOG      ○ Compiling /admin/courses ...
+[00:21:00.525] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/courses color: rgb(120, 120, 120) color: inherit {"dp":"/admin/courses","o":"http://localhost:3000/admin/courses","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1764937082416}
+[00:21:19.485] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/teachers color: rgb(120, 120, 120) color: inherit {"dp":"/admin/teachers","o":"http://localhost:3000/admin/teachers","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1764937101571}
+[00:21:38.695] Server  LOG      ○ Compiling /admin/teachers/[id] ...
+[00:21:59.562] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/teachers/494c0d62-2d00-4418-a6e7-2a101787ff02 color: rgb(120, 120, 120) color: inherit {"dp":"/admin/teachers/[id]","o":"http://localhost:3000/admin/teachers/494c0d62-2d00-4418-a6e7-2a101787ff02","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1764937141347}
+[00:23:03.413] Browser LOG     %c[Vercel Web Analytics]%c [pageview] http://localhost:3000/admin/teachers color: rgb(120, 120, 120) color: inherit {"dp":"/admin/teachers","o":"http://localhost:3000/admin/teachers","sdkn":"@vercel/analytics/next","sdkv":"1.6.1","sv":"0.1.3","ts":1764937204036}

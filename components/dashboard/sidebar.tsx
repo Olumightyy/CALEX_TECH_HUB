@@ -32,6 +32,7 @@ import {
   Layers,
   ShieldCheck,
   LogOut,
+  Shield,
 } from "lucide-react"
 import type { Profile } from "@/lib/types/database"
 import type { LucideIcon } from "lucide-react"
@@ -91,110 +92,115 @@ export function DashboardSidebar({ profile, role }: DashboardSidebarProps) {
   }
 
   return (
-    <SidebarProvider>
-      <SidebarUI className="border-r border-border">
-        <SidebarHeader className="border-b border-border p-4">
-          <Link href={homeLink} className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <GraduationCap className="h-5 w-5" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-semibold">EduPlatform</span>
-              <span className="text-xs capitalize text-muted-foreground">{role} Portal</span>
-            </div>
-          </Link>
-        </SidebarHeader>
-
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {navItems.map((item) => (
-                  <SidebarMenuItem key={item.href}>
-                    <SidebarMenuButton asChild isActive={pathname === item.href}>
-                      <Link href={item.href}>
-                        <item.icon className="h-4 w-4" />
-                        <span>{item.label}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-
-          {role === "admin" && (
-            <SidebarGroup>
-              <SidebarGroupLabel>Administration</SidebarGroupLabel>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  <SidebarMenuItem>
-                    <SidebarMenuButton asChild isActive={pathname === "/admin/verifications"}>
-                      <Link href="/admin/verifications">
-                        <ShieldCheck className="h-4 w-4" />
-                        <span>Teacher Verification</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          )}
-
-          <SidebarGroup>
-            <SidebarGroupLabel>Support</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild isActive={pathname.includes("/settings")}>
-                    <Link href={`/${role}/settings`}>
-                      <Settings className="h-4 w-4" />
-                      <span>Settings</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton asChild>
-                    <Link href="/help">
-                      <HelpCircle className="h-4 w-4" />
-                      <span>Help Center</span>
-                    </Link>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-                <SidebarMenuItem>
-                  <SidebarMenuButton onClick={handleSignOut}>
-                    <LogOut className="h-4 w-4" />
-                    <span>Sign Out</span>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-
-        <SidebarFooter className="border-t border-border p-4">
-          <div className="flex items-center gap-3">
-            <div className="h-9 w-9 overflow-hidden rounded-full bg-muted">
-              {profile.avatar_url ? (
-                <img
-                  src={profile.avatar_url || "/placeholder.svg"}
-                  alt={profile.full_name || ""}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center bg-primary text-sm font-medium text-primary-foreground">
-                  {profile.full_name?.charAt(0) || profile.email.charAt(0).toUpperCase()}
-                </div>
-              )}
-            </div>
-            <div className="flex-1 overflow-hidden">
-              <p className="truncate text-sm font-medium">{profile.full_name || "User"}</p>
-              <p className="truncate text-xs text-muted-foreground">{profile.email}</p>
-            </div>
+    <SidebarUI className="border-r border-slate-800 bg-slate-950 text-slate-300">
+      <SidebarHeader className="border-b border-slate-800 p-4">
+        <Link href={homeLink} className="flex items-center gap-2">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber-500 text-slate-950 shadow-md shadow-amber-500/10">
+            <Shield className="h-5 w-5" />
           </div>
-        </SidebarFooter>
-      </SidebarUI>
-    </SidebarProvider>
+          <div className="flex flex-col">
+            <span className="font-bold text-white tracking-tight">CalexHub</span>
+            <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">{role} Portal</span>
+          </div>
+        </Link>
+      </SidebarHeader>
+
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-slate-500">Main Menu</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <SidebarMenuItem key={item.href}>
+                    <SidebarMenuButton 
+                      asChild 
+                      isActive={isActive}
+                      className={`hover:bg-slate-800 hover:text-white transition-colors w-full ${isActive ? 'bg-amber-500/10 text-amber-500 hover:bg-amber-500/20 hover:text-amber-400' : ''}`}
+                    >
+                      <Link href={item.href}>
+                        <item.icon className={`h-4 w-4 ${isActive ? 'text-amber-500' : 'text-slate-400'}`} />
+                        <span className="font-medium">{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {role === "admin" && (
+          <SidebarGroup>
+            <SidebarGroupLabel className="text-slate-500">Administration</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild isActive={pathname === "/admin/verifications"} className="hover:bg-slate-800 hover:text-white">
+                    <Link href="/admin/verifications">
+                      <ShieldCheck className="h-4 w-4 text-slate-400" />
+                      <span>Teacher Verification</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
+
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-slate-500">Support</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={pathname.includes("/settings")} className="hover:bg-slate-800 hover:text-white">
+                  <Link href={`/${role}/settings`}>
+                    <Settings className="h-4 w-4 text-slate-400" />
+                    <span>Settings</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild className="hover:bg-slate-800 hover:text-white">
+                  <Link href="/help">
+                    <HelpCircle className="h-4 w-4 text-slate-400" />
+                    <span>Help Center</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton onClick={handleSignOut} className="hover:bg-red-900/20 hover:text-red-400 text-slate-400">
+                  <LogOut className="h-4 w-4" />
+                  <span>Sign Out</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+
+      <SidebarFooter className="border-t border-slate-800 p-4 bg-slate-950/50">
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-9 overflow-hidden rounded-full bg-slate-800 border border-slate-700">
+            {profile.avatar_url ? (
+              <img
+                src={profile.avatar_url || "/placeholder.svg"}
+                alt={profile.full_name || ""}
+                className="h-full w-full object-cover"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center bg-slate-800 text-sm font-medium text-amber-500">
+                {profile.full_name?.charAt(0) || profile.email.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <p className="truncate text-sm font-medium text-white">{profile.full_name || "User"}</p>
+            <p className="truncate text-xs text-slate-500">{profile.email}</p>
+          </div>
+        </div>
+      </SidebarFooter>
+    </SidebarUI>
   )
 }
