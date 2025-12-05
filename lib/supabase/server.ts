@@ -4,22 +4,17 @@ import { cookies } from "next/headers"
 export async function createClient() {
   const cookieStore = await cookies()
 
-  // Get auth token from cookies
+  // Get all cookies to find the Supabase session
   const allCookies = cookieStore.getAll()
 
-  // Find the access token cookie (matches sb-*-auth-token or sb-*-auth-token-code-verifier pattern)
-  const authCookie = allCookies.find(
+  // Find the access token from Supabase auth cookies
+  // Supabase stores tokens in cookies like: sb-{project-ref}-auth-token
+  const authTokenCookie = allCookies.find(
     (cookie) =>
-      cookie.name.startsWith("sb-") && cookie.name.includes("-auth-token") && !cookie.name.includes("-code-verifier"),
+      cookie.name.includes("sb-") && cookie.name.includes("-auth-token") && !cookie.name.includes("-code-verifier"),
   )
 
-  console.log(
-    "[v0] Server Client - Found cookies:",
-    allCookies.map((c) => c.name),
-  )
-  console.log("[v0] Server Client - Auth cookie:", authCookie?.name)
-
-  // Create client with auth context
+  // Create Supabase client
   const supabase = createSupabaseClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -29,15 +24,29 @@ export async function createClient() {
         autoRefreshToken: false,
         detectSessionInUrl: false,
       },
-      global: {
-        headers: authCookie?.value
-          ? {
-              Authorization: `Bearer ${authCookie.value}`,
-            }
-          : {},
-      },
     },
   )
+
+  // If we have an auth token, set it in the client
+  if (authTokenCookie?.value) {
+    // Parse the token value (it might be JSON stringified)
+    try {
+      const tokenData = JSON.parse(authTokenCookie.value)
+      if (tokenData.access_token) {
+        // Set the session manually
+        await supabase.auth.setSession({
+          access_token: tokenData.access_token,
+          refresh_token: tokenData.refresh_token || "",
+        })
+      }
+    } catch {
+      // If not JSON, try using the value directly as a token
+      await supabase.auth.setSession({
+        access_token: authTokenCookie.value,
+        refresh_token: "",
+      })
+    }
+  }
 
   return supabase
 }
