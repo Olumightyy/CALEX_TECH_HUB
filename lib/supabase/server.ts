@@ -6,7 +6,18 @@ export async function createClient() {
 
   // Get auth token from cookies
   const allCookies = cookieStore.getAll()
-  const authToken = allCookies.find((cookie) => cookie.name.includes("auth-token"))?.value
+
+  // Find the access token cookie (matches sb-*-auth-token or sb-*-auth-token-code-verifier pattern)
+  const authCookie = allCookies.find(
+    (cookie) =>
+      cookie.name.startsWith("sb-") && cookie.name.includes("-auth-token") && !cookie.name.includes("-code-verifier"),
+  )
+
+  console.log(
+    "[v0] Server Client - Found cookies:",
+    allCookies.map((c) => c.name),
+  )
+  console.log("[v0] Server Client - Auth cookie:", authCookie?.name)
 
   // Create client with auth context
   const supabase = createSupabaseClient(
@@ -15,11 +26,13 @@ export async function createClient() {
     {
       auth: {
         persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
       },
       global: {
-        headers: authToken
+        headers: authCookie?.value
           ? {
-              Authorization: `Bearer ${authToken}`,
+              Authorization: `Bearer ${authCookie.value}`,
             }
           : {},
       },
