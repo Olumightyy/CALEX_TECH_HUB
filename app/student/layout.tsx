@@ -12,10 +12,15 @@ export default async function StudentLayout({
 }) {
   const supabase = await createClient()
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-  if (!user) {
+  let user = null
+  try {
+    const { data, error } = await supabase.auth.getUser()
+    if (error || !data?.user) {
+      redirect("/auth/login")
+    }
+    user = data.user
+  } catch (error) {
+    // Network error or session invalid - redirect to login
     redirect("/auth/login")
   }
 
@@ -27,11 +32,11 @@ export default async function StudentLayout({
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full bg-slate-50">
+      <div className="flex min-h-screen w-full">
         <DashboardSidebar profile={profile} role="student" />
         <div className="flex flex-1 flex-col">
           <DashboardHeader profile={profile} />
-          <main className="flex-1 p-6 overflow-y-auto">{children}</main>
+          <main className="flex-1 p-6">{children}</main>
         </div>
       </div>
     </SidebarProvider>

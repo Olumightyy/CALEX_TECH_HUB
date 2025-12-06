@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { createClient } from "@/lib/supabase/client"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { CheckCircle, XCircle, Loader2 } from "lucide-react"
+import { verifyTeacher, rejectTeacher } from "@/lib/actions/teacher"
 
 interface TeacherVerificationActionsProps {
   teacherId: string
@@ -23,31 +23,15 @@ export function TeacherVerificationActions({ teacherId }: TeacherVerificationAct
 
   const handleVerify = async () => {
     setIsLoading(true)
-    const supabase = createClient()
-
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+      const result = await verifyTeacher(teacherId)
 
-      const { error } = await supabase.from("profiles").update({ is_verified: true }).eq("id", teacherId)
-
-      if (error) throw error
-
-      // Update application status
-      await supabase.from("teacher_applications").update({ status: "approved" }).eq("user_id", teacherId)
-
-      // Log admin action
-      await supabase.from("admin_logs").insert({
-        admin_id: user?.id,
-        action: "teacher_verified",
-        entity_type: "teacher",
-        entity_id: teacherId,
-        details: { action: "Teacher verified and approved" },
-      })
-
-      toast({ title: "Teacher verified successfully" })
-      router.refresh()
+      if (result.success) {
+        toast({ title: "Teacher verified successfully" })
+        router.refresh()
+      } else {
+        toast({ title: "Error", description: result.error, variant: "destructive" })
+      }
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" })
     } finally {
@@ -62,36 +46,15 @@ export function TeacherVerificationActions({ teacherId }: TeacherVerificationAct
     }
 
     setIsLoading(true)
-    const supabase = createClient()
-
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
+      const result = await rejectTeacher(teacherId, rejectionReason)
 
-      // Update application status
-      await supabase
-        .from("teacher_applications")
-        .update({
-          status: "rejected",
-          rejection_reason: rejectionReason,
-        })
-        .eq("user_id", teacherId)
-
-      // Optionally reset role to student
-      await supabase.from("profiles").update({ role: "student" }).eq("id", teacherId)
-
-      // Log admin action
-      await supabase.from("admin_logs").insert({
-        admin_id: user?.id,
-        action: "teacher_rejected",
-        entity_type: "teacher",
-        entity_id: teacherId,
-        details: { reason: rejectionReason },
-      })
-
-      toast({ title: "Application rejected" })
-      router.push("/admin/teachers")
+      if (result.success) {
+        toast({ title: "Application rejected" })
+        router.push("/admin/teachers")
+      } else {
+        toast({ title: "Error", description: result.error, variant: "destructive" })
+      }
     } catch (error: any) {
       toast({ title: "Error", description: error.message, variant: "destructive" })
     } finally {

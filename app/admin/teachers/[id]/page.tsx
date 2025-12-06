@@ -1,11 +1,11 @@
-import { createClient } from "@/lib/supabase/server"
 import { notFound } from "next/navigation"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import Link from "next/link"
-import { ArrowLeft, BookOpen, Users, Mail, Calendar, FileText } from "lucide-react"
+import { ArrowLeft, BookOpen, Users, Mail, Calendar, FileText, ExternalLink } from "lucide-react"
 import { TeacherVerificationActions } from "@/components/admin/teacher-verification-actions"
+import { getTeacherDetails } from "@/lib/actions/teacher"
 
 export default async function AdminTeacherDetailPage({
   params,
@@ -13,23 +13,14 @@ export default async function AdminTeacherDetailPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
-  const supabase = await createClient()
+  const result = await getTeacherDetails(id)
 
-  const { data: teacher } = await supabase
-    .from("profiles")
-    .select(`
-      *,
-      courses(id, title, status, enrollments(count))
-    `)
-    .eq("id", id)
-    .eq("role", "teacher")
-    .single()
+  if (!result.success || !result.data?.teacher) {
+    notFound()
+  }
 
-  if (!teacher) notFound()
-
-  const { data: application } = await supabase.from("teacher_applications").select("*").eq("user_id", id).single()
-
-  const totalStudents = teacher.courses?.reduce((acc: number, c: any) => acc + (c.enrollments?.[0]?.count || 0), 0) || 0
+  const { teacher, courses, application } = result.data
+  const totalStudents = courses.reduce((acc: number, c: any) => acc + (c.enrollment_count || 0), 0)
 
   return (
     <div className="space-y-6">
@@ -77,7 +68,7 @@ export default async function AdminTeacherDetailPage({
                 <div className="flex-1 space-y-4">
                   <div>
                     <h3 className="text-xl font-semibold">{teacher.full_name}</h3>
-                    <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                    <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-muted-foreground">
                       <span className="flex items-center gap-1">
                         <Mail className="h-4 w-4" />
                         {teacher.email}
@@ -114,24 +105,45 @@ export default async function AdminTeacherDetailPage({
                   </div>
                   <div>
                     <h4 className="text-sm font-medium text-muted-foreground">Experience</h4>
-                    <p className="mt-1">{application.experience || "Not specified"}</p>
+                    <p className="mt-1">
+                      {application.experience_years ? `${application.experience_years} years` : "Not specified"}
+                    </p>
                   </div>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-muted-foreground">Qualifications</h4>
                   <p className="mt-1">{application.qualifications || "Not specified"}</p>
                 </div>
-                {application.resume_url && (
-                  <div>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-2">Resume/CV</h4>
-                    <Button variant="outline" asChild>
-                      <a href={application.resume_url} target="_blank" rel="noopener noreferrer">
-                        <FileText className="mr-2 h-4 w-4" />
-                        View Resume
+                <div>
+                  <h4 className="text-sm font-medium text-muted-foreground">Reason for Applying</h4>
+                  <p className="mt-1">{application.reason || "Not specified"}</p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  {application.portfolio_url && (
+                    <Button variant="outline" size="sm" asChild>
+                      <a href={application.portfolio_url} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        Portfolio
                       </a>
                     </Button>
-                  </div>
-                )}
+                  )}
+                  {application.linkedin_url && (
+                    <Button variant="outline" size="sm" asChild>
+                      <a href={application.linkedin_url} target="_blank" rel="noopener noreferrer">
+                        <ExternalLink className="mr-2 h-4 w-4" />
+                        LinkedIn
+                      </a>
+                    </Button>
+                  )}
+                  {application.documents_url && application.documents_url.length > 0 && (
+                    <Button variant="outline" size="sm" asChild>
+                      <a href={application.documents_url[0]} target="_blank" rel="noopener noreferrer">
+                        <FileText className="mr-2 h-4 w-4" />
+                        Documents
+                      </a>
+                    </Button>
+                  )}
+                </div>
               </CardContent>
             </Card>
           )}
@@ -140,16 +152,16 @@ export default async function AdminTeacherDetailPage({
           <Card className="border-0 shadow-sm">
             <CardHeader>
               <CardTitle>Courses</CardTitle>
-              <CardDescription>{teacher.courses?.length || 0} courses created</CardDescription>
+              <CardDescription>{courses.length} courses created</CardDescription>
             </CardHeader>
             <CardContent>
-              {teacher.courses && teacher.courses.length > 0 ? (
+              {courses.length > 0 ? (
                 <div className="space-y-3">
-                  {teacher.courses.map((course: any) => (
+                  {courses.map((course: any) => (
                     <div key={course.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                       <div>
                         <h4 className="font-medium">{course.title}</h4>
-                        <p className="text-sm text-muted-foreground">{course.enrollments?.[0]?.count || 0} students</p>
+                        <p className="text-sm text-muted-foreground">{course.enrollment_count || 0} students</p>
                       </div>
                       <Badge variant={course.status === "published" ? "default" : "secondary"}>{course.status}</Badge>
                     </div>
@@ -174,7 +186,7 @@ export default async function AdminTeacherDetailPage({
                   <BookOpen className="h-4 w-4 text-primary" />
                   <span>Total Courses</span>
                 </div>
-                <span className="font-bold">{teacher.courses?.length || 0}</span>
+                <span className="font-bold">{courses.length}</span>
               </div>
               <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                 <div className="flex items-center gap-2">

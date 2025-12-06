@@ -76,7 +76,7 @@ export function CourseEnrollButton({ course, enrollment }: CourseEnrollButtonPro
 
   if (enrollment) {
     return (
-      <Button asChild className="w-full bg-green-600 hover:bg-green-700 shadow-sm text-white">
+      <Button asChild className="w-full bg-green-600 hover:bg-green-700">
         <a href={`/student/courses/${course.slug}`}>
           <Play className="mr-2 h-4 w-4" />
           Continue Learning
@@ -86,16 +86,11 @@ export function CourseEnrollButton({ course, enrollment }: CourseEnrollButtonPro
   }
 
   return (
-    <Button 
-        onClick={handleEnroll} 
-        disabled={loading} 
-        className="w-full bg-slate-900 hover:bg-slate-800 text-white shadow-md transition-all hover:shadow-lg" 
-        size="lg"
-    >
+    <Button onClick={handleEnroll} disabled={loading} className="w-full" size="lg">
       {loading ? (
         <>
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          {course.price === 0 ? "Enrolling..." : "Processing..."}
+          Processing...
         </>
       ) : course.price === 0 ? (
         <>

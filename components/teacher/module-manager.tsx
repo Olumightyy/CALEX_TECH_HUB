@@ -22,8 +22,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { useToast } from "@/hooks/use-toast"
-import { PlusCircle, GripVertical, Trash2, Edit, Video, FileText, File, Loader2, Upload, BookOpen, Clock, PlayCircle, FileAudio, FileIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import { PlusCircle, GripVertical, Trash2, Edit, Video, FileText, File, Loader2, Upload } from "lucide-react"
 
 interface Lesson {
   id: string
@@ -263,37 +262,25 @@ export function ModuleManager({ courseId, initialModules }: ModuleManagerProps) 
   const getContentIcon = (type: string) => {
     switch (type) {
       case "video":
-        return <PlayCircle className="h-4 w-4 text-blue-500" />
+        return <Video className="h-4 w-4" />
       case "text":
-        return <FileText className="h-4 w-4 text-amber-500" />
-      case "audio":
-        return <FileAudio className="h-4 w-4 text-purple-500" />
-      case "pdf":
-        return <FileIcon className="h-4 w-4 text-red-500" />
+        return <FileText className="h-4 w-4" />
       default:
-        return <File className="h-4 w-4 text-slate-500" />
+        return <File className="h-4 w-4" />
     }
   }
 
   return (
     <div className="space-y-6">
-      <Card className="border border-slate-200 shadow-sm bg-white overflow-hidden">
-        <div className="h-1 bg-gradient-to-r from-amber-400 to-indigo-600"></div>
-        <CardHeader className="flex flex-row items-center justify-between border-b border-slate-100 pb-6">
-          <div className="space-y-1">
-            <CardTitle className="text-xl font-bold text-slate-900 flex items-center gap-2">
-                <BookOpen className="h-5 w-5 text-amber-500" />
-                Course Curriculum
-            </CardTitle>
-            <CardDescription className="text-slate-500">
-                Structure your course into modules and lessons.
-            </CardDescription>
+      <Card className="border-0 shadow-sm">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Course Curriculum</CardTitle>
+            <CardDescription>Organize your course into modules and lessons</CardDescription>
           </div>
           <Dialog open={moduleDialogOpen} onOpenChange={setModuleDialogOpen}>
             <DialogTrigger asChild>
               <Button
-                size="sm"
-                className="bg-slate-900 text-white hover:bg-slate-800 shadow-md transition-all"
                 onClick={() => {
                   setEditingModule(null)
                   setModuleForm({ title: "", description: "" })
@@ -303,87 +290,70 @@ export function ModuleManager({ courseId, initialModules }: ModuleManagerProps) 
                 Add Module
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
+            <DialogContent>
               <DialogHeader>
-                <DialogTitle className="text-xl font-bold text-slate-900">{editingModule ? "Edit Module" : "Add New Module"}</DialogTitle>
+                <DialogTitle>{editingModule ? "Edit Module" : "Add New Module"}</DialogTitle>
                 <DialogDescription>
-                  {editingModule ? "Update module details" : "Create a new module to organize your lessons."}
+                  {editingModule ? "Update module details" : "Create a new module for your course"}
                 </DialogDescription>
               </DialogHeader>
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
-                  <Label htmlFor="module-title">Module Title <span className="text-red-500">*</span></Label>
+                  <Label htmlFor="module-title">Module Title</Label>
                   <Input
                     id="module-title"
-                    placeholder="e.g., Introduction to the Course"
+                    placeholder="e.g., Introduction to JavaScript"
                     value={moduleForm.title}
                     onChange={(e) => setModuleForm({ ...moduleForm, title: e.target.value })}
-                    className="font-medium"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="module-description">Description (Optional)</Label>
                   <Textarea
                     id="module-description"
-                    placeholder="Briefly describe what students will learn in this module..."
+                    placeholder="Brief description of this module"
                     value={moduleForm.description}
                     onChange={(e) => setModuleForm({ ...moduleForm, description: e.target.value })}
-                    className="resize-none"
-                    rows={3}
                   />
                 </div>
               </div>
               <DialogFooter>
-                <Button variant="outline" onClick={() => setModuleDialogOpen(false)} className="border-slate-200">
+                <Button variant="outline" onClick={() => setModuleDialogOpen(false)}>
                   Cancel
                 </Button>
                 <Button
                   onClick={editingModule ? handleUpdateModule : handleAddModule}
                   disabled={isLoading || !moduleForm.title}
-                  className="bg-slate-900 hover:bg-slate-800"
                 >
                   {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  {editingModule ? "Save Changes" : "Create Module"}
+                  {editingModule ? "Update" : "Add"} Module
                 </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
         </CardHeader>
-        <CardContent className="pt-6 bg-slate-50/50 min-h-[400px]">
+        <CardContent>
           {modules.length > 0 ? (
             <Accordion type="multiple" className="space-y-4">
               {modules
                 .sort((a, b) => a.position - b.position)
                 .map((module, index) => (
-                  <AccordionItem 
-                    key={module.id} 
-                    value={module.id} 
-                    className="border border-slate-200 rounded-xl bg-white shadow-sm overflow-hidden data-[state=open]:ring-1 data-[state=open]:ring-amber-500/20"
-                  >
-                    <AccordionTrigger className="px-4 py-4 hover:no-underline hover:bg-slate-50 transition-colors">
-                      <div className="flex items-center gap-4 text-left">
-                        <div className="flex items-center justify-center h-8 w-8 rounded-full bg-slate-100 text-slate-500 font-bold text-xs ring-1 ring-slate-200/50">
-                            {index + 1}
-                        </div>
-                        <div className="flex flex-col">
-                            <span className="font-semibold text-slate-900 text-lg">{module.title}</span>
-                            <span className="text-sm text-slate-500 font-normal flex items-center gap-2">
-                                <span>{module.lessons.length} lessons</span>
-                                {module.description && (
-                                    <>
-                                        <span className="w-1 h-1 rounded-full bg-slate-300"></span>
-                                        <span className="truncate max-w-[300px]">{module.description}</span>
-                                    </>
-                                )}
-                            </span>
-                        </div>
+                  <AccordionItem key={module.id} value={module.id} className="border rounded-lg px-4">
+                    <AccordionTrigger className="hover:no-underline">
+                      <div className="flex items-center gap-3">
+                        <GripVertical className="h-4 w-4 text-muted-foreground" />
+                        <span className="text-sm font-medium text-muted-foreground">Module {index + 1}</span>
+                        <span className="font-semibold">{module.title}</span>
+                        <span className="text-sm text-muted-foreground">({module.lessons.length} lessons)</span>
                       </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-4 pb-4 pt-2 border-t border-slate-100 bg-slate-50/30">
+                    <AccordionContent className="pt-4">
                       <div className="space-y-4">
-                        <div className="flex items-center justify-end gap-2 mb-2">
+                        {module.description && <p className="text-sm text-muted-foreground">{module.description}</p>}
+
+                        <div className="flex items-center gap-2 mb-4">
                           <Button
-                            variant="ghost"
+                            variant="outline"
                             size="sm"
                             onClick={() => {
                               setEditingModule(module)
@@ -393,19 +363,18 @@ export function ModuleManager({ courseId, initialModules }: ModuleManagerProps) 
                               })
                               setModuleDialogOpen(true)
                             }}
-                            className="text-slate-500 hover:text-amber-600 hover:bg-amber-50"
                           >
-                            <Edit className="mr-2 h-3.5 w-3.5" />
-                            Edit Details
+                            <Edit className="mr-2 h-3 w-3" />
+                            Edit Module
                           </Button>
                           <Button
-                            variant="ghost"
+                            variant="outline"
                             size="sm"
-                            className="text-slate-500 hover:text-red-600 hover:bg-red-50"
+                            className="text-destructive bg-transparent"
                             onClick={() => handleDeleteModule(module.id)}
                           >
-                            <Trash2 className="mr-2 h-3.5 w-3.5" />
-                            Delete Module
+                            <Trash2 className="mr-2 h-3 w-3" />
+                            Delete
                           </Button>
                         </div>
 
@@ -416,34 +385,23 @@ export function ModuleManager({ courseId, initialModules }: ModuleManagerProps) 
                             .map((lesson, lessonIndex) => (
                               <div
                                 key={lesson.id}
-                                className="group flex items-center justify-between p-3 rounded-lg border border-slate-200 bg-white hover:border-amber-200 hover:shadow-sm transition-all"
+                                className="flex items-center justify-between p-3 rounded-lg bg-muted/50"
                               >
                                 <div className="flex items-center gap-3">
-                                  <div className="cursor-grab active:cursor-grabbing text-slate-300 hover:text-slate-500">
-                                     <GripVertical className="h-4 w-4" />
-                                  </div>
-                                  <div className="p-2 rounded-md bg-slate-50 group-hover:bg-white transition-colors">
-                                    {getContentIcon(lesson.content_type)}
-                                  </div>
-                                  <div className="flex flex-col">
-                                      <span className="font-medium text-slate-900">{lesson.title}</span>
-                                      <div className="flex items-center gap-2 text-xs text-slate-500">
-                                        <span className="flex items-center gap-1">
-                                            <Clock className="h-3 w-3" />
-                                            {lesson.duration_minutes} min
-                                        </span>
-                                        {lesson.is_preview && (
-                                            <span className="px-1.5 py-0.5 rounded text-[10px] font-bold bg-emerald-100 text-emerald-700 uppercase tracking-wide">
-                                            Free Preview
-                                            </span>
-                                        )}
-                                      </div>
-                                  </div>
+                                  <GripVertical className="h-4 w-4 text-muted-foreground" />
+                                  {getContentIcon(lesson.content_type)}
+                                  <span className="font-medium">{lesson.title}</span>
+                                  {lesson.is_preview && (
+                                    <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded">
+                                      Preview
+                                    </span>
+                                  )}
+                                  <span className="text-sm text-muted-foreground">{lesson.duration_minutes} min</span>
                                 </div>
                                 <Button
                                   variant="ghost"
                                   size="icon"
-                                  className="h-8 w-8 text-slate-400 hover:text-red-600 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all"
+                                  className="h-8 w-8 text-destructive"
                                   onClick={() => handleDeleteLesson(module.id, lesson.id)}
                                 >
                                   <Trash2 className="h-4 w-4" />
@@ -454,11 +412,11 @@ export function ModuleManager({ courseId, initialModules }: ModuleManagerProps) 
 
                         <Button
                           variant="outline"
-                          className="w-full border-dashed border-slate-300 text-slate-500 hover:border-amber-500 hover:text-amber-600 hover:bg-amber-50 transition-all py-6 h-auto"
+                          className="w-full bg-transparent"
                           onClick={() => openAddLessonDialog(module.id)}
                         >
-                          <PlusCircle className="mr-2 h-5 w-5" />
-                          Add Lesson to Module
+                          <PlusCircle className="mr-2 h-4 w-4" />
+                          Add Lesson
                         </Button>
                       </div>
                     </AccordionContent>
@@ -466,16 +424,10 @@ export function ModuleManager({ courseId, initialModules }: ModuleManagerProps) 
                 ))}
             </Accordion>
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 text-center border-2 border-dashed border-slate-200 rounded-xl bg-slate-50/50">
-              <div className="p-4 bg-white rounded-full shadow-sm mb-4">
-                 <BookOpen className="h-10 w-10 text-slate-300" />
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">No modules yet</h3>
-              <p className="text-slate-500 max-w-sm mb-6">Star creating your curriculum by adding your first module.</p>
-              <Button onClick={() => setModuleDialogOpen(true)} className="bg-amber-500 hover:bg-amber-600 text-white">
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Create First Module
-              </Button>
+            <div className="text-center py-12">
+              <FileText className="h-12 w-12 mx-auto text-muted-foreground/50" />
+              <h3 className="mt-4 text-lg font-medium">No modules yet</h3>
+              <p className="mt-2 text-muted-foreground">Start building your curriculum by adding modules</p>
             </div>
           )}
         </CardContent>
@@ -483,23 +435,22 @@ export function ModuleManager({ courseId, initialModules }: ModuleManagerProps) 
 
       {/* Add Lesson Dialog */}
       <Dialog open={lessonDialogOpen} onOpenChange={setLessonDialogOpen}>
-        <DialogContent className="max-w-xl">
+        <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle className="text-xl font-bold text-slate-900">Add New Lesson</DialogTitle>
+            <DialogTitle>Add New Lesson</DialogTitle>
             <DialogDescription>Create a new lesson with video, text, or file content</DialogDescription>
           </DialogHeader>
-          <div className="space-y-6 py-4">
+          <div className="space-y-4 py-4">
             <div className="space-y-2">
               <Label>Lesson Title</Label>
               <Input
                 placeholder="e.g., Variables and Data Types"
                 value={lessonForm.title}
                 onChange={(e) => setLessonForm({ ...lessonForm, title: e.target.value })}
-                className="font-medium"
               />
             </div>
 
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label>Content Type</Label>
                 <Select
@@ -510,62 +461,50 @@ export function ModuleManager({ courseId, initialModules }: ModuleManagerProps) 
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="video">Video Lesson</SelectItem>
-                    <SelectItem value="text">Article / Text</SelectItem>
-                    <SelectItem value="pdf">PDF Resource</SelectItem>
-                    <SelectItem value="audio">Audio Clip</SelectItem>
+                    <SelectItem value="video">Video</SelectItem>
+                    <SelectItem value="text">Text/Article</SelectItem>
+                    <SelectItem value="pdf">PDF Document</SelectItem>
+                    <SelectItem value="audio">Audio</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               <div className="space-y-2">
                 <Label>Duration (minutes)</Label>
-                <div className="relative">
-                    <Clock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
-                    <Input
-                    type="number"
-                    min="0"
-                    placeholder="0"
-                    value={lessonForm.duration_minutes}
-                    onChange={(e) =>
-                        setLessonForm({ ...lessonForm, duration_minutes: Number.parseInt(e.target.value) || 0 })
-                    }
-                    className="pl-9"
-                    />
-                </div>
+                <Input
+                  type="number"
+                  min="0"
+                  value={lessonForm.duration_minutes}
+                  onChange={(e) =>
+                    setLessonForm({ ...lessonForm, duration_minutes: Number.parseInt(e.target.value) || 0 })
+                  }
+                />
               </div>
             </div>
 
             {lessonForm.content_type === "text" ? (
               <div className="space-y-2">
-                <Label>Content Text</Label>
+                <Label>Content</Label>
                 <Textarea
-                  placeholder="Write your lesson content here using markdown..."
-                  rows={8}
-                  className="font-mono text-sm"
-                  value={lessonForm.content_text || ""}
+                  placeholder="Write your lesson content here..."
+                  rows={6}
+                  value={lessonForm.content_text}
                   onChange={(e) => setLessonForm({ ...lessonForm, content_text: e.target.value })}
                 />
               </div>
             ) : (
               <div className="space-y-2">
-                <Label>Content Source</Label>
+                <Label>Upload File or Enter URL</Label>
                 <div className="flex gap-2">
-                  <div className="relative flex-1">
-                     <Input
-                        placeholder={lessonForm.content_type === "video" ? "https://youtube.com/..." : "https://..."}
-                        value={lessonForm.content_url || ""}
-                        onChange={(e) => setLessonForm({ ...lessonForm, content_url: e.target.value })}
-                     />
-                  </div>
-                  <div className="relative px-2 py-1 bg-slate-100 rounded-md flex items-center justify-center text-xs text-slate-500 font-medium whitespace-nowrap">
-                      OR
-                  </div>
+                  <Input
+                    placeholder="https://..."
+                    value={lessonForm.content_url}
+                    onChange={(e) => setLessonForm({ ...lessonForm, content_url: e.target.value })}
+                  />
                   <label className="cursor-pointer">
-                    <Button variant="outline" asChild disabled={uploadingFile} type="button">
+                    <Button variant="outline" asChild disabled={uploadingFile}>
                       <span>
-                        {uploadingFile ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4 mr-2" />}
-                         Upload
+                        {uploadingFile ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
                       </span>
                     </Button>
                     <input
@@ -584,30 +523,27 @@ export function ModuleManager({ courseId, initialModules }: ModuleManagerProps) 
                     />
                   </label>
                 </div>
-                <p className="text-xs text-slate-500">
-                    Paste a URL (e.g., YouTube, Vimeo) or upload a file directly.
-                </p>
               </div>
             )}
 
-            <div className="flex items-center gap-2 p-3 rounded-lg border border-slate-200 bg-slate-50">
+            <div className="flex items-center gap-2">
               <input
                 type="checkbox"
                 id="is_preview"
                 checked={lessonForm.is_preview}
                 onChange={(e) => setLessonForm({ ...lessonForm, is_preview: e.target.checked })}
-                className="w-4 h-4 rounded border-slate-300 text-amber-600 focus:ring-amber-500"
+                className="rounded border-gray-300"
               />
-              <Label htmlFor="is_preview" className="text-sm font-medium cursor-pointer">
-                Allow this lesson as a <strong>Free Preview</strong>
+              <Label htmlFor="is_preview" className="text-sm font-normal">
+                Allow this lesson as free preview
               </Label>
             </div>
           </div>
-          <DialogFooter className="gap-2 sm:gap-0">
+          <DialogFooter>
             <Button variant="outline" onClick={() => setLessonDialogOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleAddLesson} disabled={isLoading || !lessonForm.title} className="bg-slate-900 text-white">
+            <Button onClick={handleAddLesson} disabled={isLoading || !lessonForm.title}>
               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Add Lesson
             </Button>
